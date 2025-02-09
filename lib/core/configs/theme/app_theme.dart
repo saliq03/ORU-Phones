@@ -33,14 +33,24 @@ class AppTheme{
               )
           ),
       ),
-      // elevatedButtonTheme: ElevatedButtonThemeData(
-      //     style: ElevatedButton.styleFrom(
-      //         backgroundColor: AppColors.primary,
-      //         textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color: Colors.white),
-      //         shape: RoundedRectangleBorder(
-      //             borderRadius: BorderRadius.circular(30)
-      //         ))
-      // )
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              textStyle: const TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.white),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4)
+              ))
+      ),
+
+      checkboxTheme: CheckboxThemeData(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4), // Optional: rounded corners
+              side: BorderSide(
+                  color: Color(0xFFABABAB), // Border color
+                  width: 1, // Border weight
+              ),
+          ),
+      ),
   );
 
 }

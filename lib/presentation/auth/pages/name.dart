@@ -1,14 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'package:oruphones_assignment/common/buttons/basic_app_button.dart';
-import 'package:oruphones_assignment/core/configs/assets/app_images.dart';
-import 'package:oruphones_assignment/core/configs/colors/app_colors.dart';
-import 'package:oruphones_assignment/presentation/auth/pages/verify_otp.dart';
-import 'package:oruphones_assignment/presentation/auth/widgets/app_bar.dart';
+import '../../../common/buttons/basic_app_button.dart';
+import '../../../core/configs/assets/app_images.dart';
+import '../../../core/configs/colors/app_colors.dart';
+import '../widgets/app_bar.dart';
 
-class LoginMobilePage extends StatelessWidget {
-   LoginMobilePage({super.key});
+class NamePage extends StatelessWidget {
+   NamePage({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -23,15 +22,15 @@ class LoginMobilePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AppBarAuth(hideBack: true,),
-                 SizedBox(width: double.infinity,height: 60,),
+                  AppBarAuth(),
+                  SizedBox(width: double.infinity,height: 60,),
                   Container(
-                  width: 170,height: 80,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                         fit: BoxFit.cover,
-                        image: AssetImage(AppImages.logo))
-                  ),),
+                    width: 170,height: 80,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(AppImages.logo))
+                    ),),
                   SizedBox(height: 50,),
                   Text("Welcome",style: TextStyle(fontSize: 28,color: AppColors.primary,fontWeight: FontWeight.w600),),
                   Text("Sign in to continue",style: TextStyle(color: Color(0xff707070),fontSize: 14,fontWeight: FontWeight.w400),),
@@ -42,7 +41,7 @@ class LoginMobilePage extends StatelessWidget {
                   SizedBox(height: 5,),
                   BasicAppButton(title: "Next", onPress: (){
                     if(_formKey.currentState!.validate()){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>VerifyOtpPage()));
+                     // Navigator.push(context, MaterialPageRoute(builder: (_)=>VerifyOtpPage()));
                     }
                   },icon: Icons.arrow_forward_rounded,)
                 ],
@@ -62,20 +61,20 @@ class LoginMobilePage extends StatelessWidget {
         TextFormField(
           keyboardType: TextInputType.phone,
           maxLength: 10,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(10),
-          ],
+          // inputFormatters: [
+          //   FilteringTextInputFormatter.digitsOnly,
+          //   LengthLimitingTextInputFormatter(10),
+          // ],
           decoration: InputDecoration(
-            hintText: "Mobile Number",
-            prefixIcon: Padding(
-              padding: const EdgeInsets.only(left: 15,top: 15,bottom: 15,right: 10),
-              child: Text("+91",style: TextStyle(
-                color: Color(0xFF757474),
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),),
-            )
+              hintText: "Mobile Number",
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 15,top: 15,bottom: 15,right: 10),
+                child: Text("+91",style: TextStyle(
+                  color: Color(0xFF757474),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),),
+              )
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -83,9 +82,9 @@ class LoginMobilePage extends StatelessWidget {
             } else if (value.length != 10) {
               return "Mobile number must be 10 digits";
             }
-          else if (!RegExp(r'^[6-9]\d{9}$').hasMatch(value)) {
-            return "Enter a valid 10-digit mobile number";
-          }
+            else if (!RegExp(r'^[6-9]\d{9}$').hasMatch(value)) {
+              return "Enter a valid 10-digit mobile number";
+            }
             return null; // Valid input
           },
         )
@@ -119,7 +118,7 @@ class LoginMobilePage extends StatelessWidget {
               child: Text(
                 "Terms and Condition",
                 style: TextStyle(
-                  decoration: TextDecoration.underline,
+                    decoration: TextDecoration.underline,
                     fontSize: 14,fontWeight: FontWeight.w400
                 ),
               ),
