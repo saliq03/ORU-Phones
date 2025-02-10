@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oruphones_assignment/presentation/auth/pages/name.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../common/buttons/basic_app_button.dart';
 import '../../../core/configs/assets/app_images.dart';
@@ -32,12 +33,28 @@ class VerifyOtpPage extends StatelessWidget {
                 Text("Verify Mobile No.",style: TextStyle(fontSize: 28,color: AppColors.primary,fontWeight: FontWeight.w600),),
                 Text("Please enter the 4 digital verification code sent to your mobile  number +91-7587329682 via SMS",textAlign: TextAlign.center,style: TextStyle(color: Color(0xff707070),fontSize: 14,fontWeight: FontWeight.w400),),
                 SizedBox(height: 100,),
-                // phoneField(),
-                SizedBox(height: 100,),
-                // termsAndConditionsWidget(),
-                SizedBox(height: 5,),
-                BasicAppButton(title: "Verify OTP", onPress: (){
+                 Pinput(
+                   length: 4,
+                   validator: (value){
 
+                   },
+                   defaultPinTheme: PinTheme(
+                     width: 42,
+                     height: 44,
+                     textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                     decoration: BoxDecoration(
+                       color: Colors.transparent, // ✅ Background transparent
+                       border: Border.all(color: Color(0xffCCCCCC)), // Border color
+                       borderRadius: BorderRadius.circular(8), // Rounded corners
+                     ),
+                   ),
+                 ),
+                SizedBox(height: 70,),
+                resendOptWidget(),
+                SizedBox(height: 100,),
+                BasicAppButton(title: "Verify OTP", onPress: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_)=>NamePage()));
                 })
               ],
             ),
@@ -46,5 +63,36 @@ class VerifyOtpPage extends StatelessWidget {
       ),
     );
   }
+ 
+  Widget resendOptWidget(){
+    return Column(
+      children: [
+        Text("Didn’t receive OTP?",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: Color(0xff757474)),),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: Size(0, 0),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              child: Text(
+                "Resend OTP",
+                style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    decorationColor:Color(0xff191919),
+                    fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xff191919)
+                ),
+              ),
+            ),
+            SizedBox(width: 4),
+            Text("in 0:23 Sec",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color: Color(0xff191919)),),
 
+
+          ],
+        ),      ],
+    );
+  }
 }

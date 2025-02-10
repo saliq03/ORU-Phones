@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/buttons/basic_app_button.dart';
@@ -22,7 +21,7 @@ class NamePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AppBarAuth(),
+                  AppBarAuth(hideBack: true,),
                   SizedBox(width: double.infinity,height: 60,),
                   Container(
                     width: 170,height: 80,
@@ -35,10 +34,9 @@ class NamePage extends StatelessWidget {
                   Text("Welcome",style: TextStyle(fontSize: 28,color: AppColors.primary,fontWeight: FontWeight.w600),),
                   Text("Sign in to continue",style: TextStyle(color: Color(0xff707070),fontSize: 14,fontWeight: FontWeight.w400),),
                   SizedBox(height: 100,),
-                  phoneField(),
+                  nameField(),
                   SizedBox(height: 100,),
-                  termsAndConditionsWidget(),
-                  SizedBox(height: 5,),
+
                   BasicAppButton(title: "Next", onPress: (){
                     if(_formKey.currentState!.validate()){
                      // Navigator.push(context, MaterialPageRoute(builder: (_)=>VerifyOtpPage()));
@@ -53,37 +51,44 @@ class NamePage extends StatelessWidget {
     );
   }
 
-  Widget phoneField(){
+  Widget nameField(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Enter Your Phone Number",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color:Color(0xff282828)),),
-        TextFormField(
-          keyboardType: TextInputType.phone,
-          maxLength: 10,
-          // inputFormatters: [
-          //   FilteringTextInputFormatter.digitsOnly,
-          //   LengthLimitingTextInputFormatter(10),
-          // ],
-          decoration: InputDecoration(
-              hintText: "Mobile Number",
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 15,top: 15,bottom: 15,right: 10),
-                child: Text("+91",style: TextStyle(
-                  color: Color(0xFF757474),
-                  fontSize: 16,
+
+        RichText(
+          text: TextSpan(children: [
+              TextSpan(
+                text: "Please Tell Us Your Name ",
+                style: TextStyle(
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
-                ),),
-              )
+                  color: Color(0xff282828), // Your original color
+                ),
+              ),
+              TextSpan(
+                text: "*",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red, // Red asterisk
+                ),
+              ),
+            ],
+          ),
+        ),
+
+
+        TextFormField(
+          keyboardType: TextInputType.text,
+
+          decoration: InputDecoration(
+              hintText: "Name",
+
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "Please enter your mobile number";
-            } else if (value.length != 10) {
-              return "Mobile number must be 10 digits";
-            }
-            else if (!RegExp(r'^[6-9]\d{9}$').hasMatch(value)) {
-              return "Enter a valid 10-digit mobile number";
+              return "Please enter your name";
             }
             return null; // Valid input
           },
@@ -91,43 +96,5 @@ class NamePage extends StatelessWidget {
       ],
     );
   }
-  Widget termsAndConditionsWidget(){
-    bool checkboxvalue=false;
-    return Row(
-      children: [
-        Checkbox(
 
-          value: checkboxvalue,
-          onChanged: (value) {
-            checkboxvalue = value!;
-          },
-        ),
-        SizedBox(width: 3),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("Accept",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400),),
-            SizedBox(width: 4),
-            TextButton(
-              onPressed: () {},
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: Size(0, 0),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              child: Text(
-                "Terms and Condition",
-                style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    fontSize: 14,fontWeight: FontWeight.w400
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    )
-    ;
-
-  }
 }
