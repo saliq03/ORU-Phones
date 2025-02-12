@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../common/buttons/basic_app_button.dart';
 import '../../../core/configs/assets/app_images.dart';
+import '../../../core/configs/assets/app_vectors.dart';
 import '../../../core/configs/colors/app_colors.dart';
 import '../widgets/app_bar.dart';
 
@@ -23,13 +25,7 @@ class NamePage extends StatelessWidget {
                 children: [
                   AppBarAuth(hideBack: true,),
                   SizedBox(width: double.infinity,height: 60,),
-                  Container(
-                    width: 170,height: 80,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(AppImages.logo))
-                    ),),
+                  SvgPicture.asset(AppVectors.logo,width: 116,height: 61,colorFilter: ColorFilter.mode(Colors.black,BlendMode.srcIn),),
                   SizedBox(height: 50,),
                   Text("Welcome",style: TextStyle(fontSize: 28,color: AppColors.primary,fontWeight: FontWeight.w600),),
                   Text("Sign in to continue",style: TextStyle(color: Color(0xff707070),fontSize: 14,fontWeight: FontWeight.w400),),
