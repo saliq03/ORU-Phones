@@ -1,13 +1,10 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:oruphones_assignment/core/configs/assets/app_images.dart';
-import 'package:oruphones_assignment/core/configs/constants/constants.dart';
 import 'package:oruphones_assignment/presentation/home/widgets/app_bar.dart';
 import 'package:oruphones_assignment/presentation/home/widgets/banners.dart';
 import 'package:oruphones_assignment/presentation/home/widgets/search_bar.dart';
 import 'package:oruphones_assignment/presentation/home/widgets/search_components.dart';
+import 'package:oruphones_assignment/presentation/home/widgets/top_brands.dart';
 import 'package:oruphones_assignment/presentation/home/widgets/whats_on_your_mind.dart';
 
 
@@ -23,9 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body:
-
-        CustomScrollView(
+        body: CustomScrollView(
             slivers: [
               AppBarHome(),
               SearchBarHome(),
@@ -34,39 +29,7 @@ class _HomePageState extends State<HomePage> {
               giveSpace(height: 20),
               WhatsOnYourMindWidget(),
               giveSpace(height: 30),
-
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Top brands",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Color(0xff525252)),),
-                          Icon(CupertinoIcons.forward,color: Color(0xff525252),)
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    SizedBox(
-                      height: 65,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                          itemBuilder: (context,index){
-                            return Container(
-                              margin: EdgeInsets.only(left: 15),
-                              height: 64,width: 64,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xffF2F2F2),
-                              ),
-                              child: SvgPicture.asset('assets/vectors/oppo.svg'),
-                            );
-                          },itemCount: 9,),
-                    )
-                  ],
-                ),
-              ),
+              TopBrandsWidget(),
 
               SliverToBoxAdapter(
                 child: ListView.builder(
@@ -85,7 +48,29 @@ class _HomePageState extends State<HomePage> {
 
 
             ],
-        )
+        ),
+        floatingActionButton:  Padding(
+          padding: const EdgeInsets.only(bottom: 20.0), // Bottom padding
+          child: SizedBox(
+            width: 105,
+            height: 51,
+            child: FloatingActionButton(
+              onPressed: () {},
+              backgroundColor: Color(0xff363636),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(44),
+                side: BorderSide(
+                  color: Color(0xffF6C018),
+                  width: 4
+                )
+              ),
+              child: Row(children: [
+                Text("Sell")
+              ],), // Custom icon
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
 
       ),
     );
