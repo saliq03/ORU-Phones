@@ -7,4 +7,6 @@ class AppImages{
   static const List<String> brands=['${basePath}apple.png','${basePath}mi.png','${basePath}samsung.png','${basePath}vivo.png','${basePath}realme.png','${basePath}moto.png','${basePath}oppo.png'];
   static const String practiceImage='${basePath}practice_image.png';
   static const String ORUVerified='${basePath}ORU_verified.png';
+  static const List<String> itemCardAds=['${basePath}item_card_ad1.png','${basePath}item_card_ad2.png'];
+
 }
