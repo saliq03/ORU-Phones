@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oruphones_assignment/data/models/product.dart';
+import 'package:oruphones_assignment/presentation/auth/widgets/login_mobile_bottom_sheet.dart';
 import 'package:oruphones_assignment/presentation/home/bloc/home_bloc.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/configs/assets/app_images.dart';
 
 class GridItemsWidget extends StatelessWidget {
@@ -35,7 +35,7 @@ class GridItemsWidget extends StatelessWidget {
             }
             else{
               int itemIndex = index - bannerPositions.where((pos) => pos <= index + 1).length; // Adjust index for banners
-              return itemWidget(state.products[itemIndex]);
+              return itemWidget(state.products[itemIndex],context);
             }
 
           });
@@ -48,7 +48,7 @@ class GridItemsWidget extends StatelessWidget {
   
   
   
-  Widget itemWidget(ProductModel product){
+  Widget itemWidget(ProductModel product,BuildContext context){
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -81,7 +81,9 @@ class GridItemsWidget extends StatelessWidget {
                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                      product.images!.isNotEmpty&&product.images![0].isVarified=="accepted"?Image.asset(AppImages.ORUVerified):SizedBox(width: 1,),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.favorite_outline_outlined,color: Color(0xffFFFFFF),
+                      IconButton(onPressed: (){
+                        _showLoginMobileBottomSheet(context);
+                      }, icon: Icon(Icons.favorite_outline_outlined,color: Color(0xffFFFFFF),
                         shadows: [BoxShadow(
                           color: Color(0x66FFFFFF),
                           blurRadius: 10,
@@ -89,7 +91,7 @@ class GridItemsWidget extends StatelessWidget {
                       )
 
                     ],),
-                  ClipRect(
+                  product.openForNegotiation==true?ClipRect(
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
                       child: Container(
@@ -104,7 +106,7 @@ class GridItemsWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ):SizedBox.shrink()
                 ],
               ),
             ),
@@ -164,7 +166,7 @@ class GridItemsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 80,
-                    child: Text(product.listingPrice!,maxLines:1, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 10,fontWeight: FontWeight.w400,color: Color(0xff7D7D7D)),)),
+                    child: Text('${product.listingLocation},${product.listingState}!',maxLines:1, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 10,fontWeight: FontWeight.w400,color: Color(0xff7D7D7D)),)),
                 Text("July 25th",style: TextStyle(fontSize: 10,fontWeight: FontWeight.w400,color: Color(0xff7D7D7D)),),
               ],),
           )
@@ -181,5 +183,15 @@ class GridItemsWidget extends StatelessWidget {
                image:AssetImage(AppImages.itemCardAds[index]) )
        ),
      );
+   }
+
+   void _showLoginMobileBottomSheet(BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10))
+        ),
+        builder: (context)=>LoginMobileBottomSheet());
    }
 }
