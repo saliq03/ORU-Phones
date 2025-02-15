@@ -13,6 +13,8 @@ import 'package:oruphones_assignment/service_locator.dart';
 
 import '../../home/pages/home.dart';
 import '../pages/verify_otp.dart';
+import '../widgets/name_bottom_sheet.dart';
+import '../widgets/verifiy_otp_bottom_sheet.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -40,6 +42,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if(event.page){
         Navigator.push(event.context,
             MaterialPageRoute(builder: (_)=>VerifyOtpPage(mobile: event.number,)));
+
+      }
+      else{
+        _showVerifyOTPBottomSheet(event.context,event.number);
         emit(state.copyWith(mobileLoading: false));
       }
 
@@ -60,30 +66,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           SnackBar(content: Text(l),backgroundColor: Colors.red,
             behavior: SnackBarBehavior.fixed, // Ensures it's fixed at the bottom
             duration: Duration(seconds: 3),));
-    }, (r){
-      if(event.page){
+    },
+    (r){
         UserModel user=r;
-        if(user.userName==''){// new user
-          Navigator.of(event.context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => NamePage(cookie: user.cookies,),
-            ),
-                (route) => false,
-          );
+        if(user.userName=='') { // new user
+          if (event.page) {
+            Navigator.of(event.context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => NamePage(cookie: user.cookies,),
+                ),
+                    (route) => false);
+           }
+          else {
+            Navigator.pop(event.context);
+            Navigator.pop(event.context);
+            _showNameBottomSheet(event.context,user.cookies);
+          }
         }
         else{
-          Navigator.of(event.context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ),
-                (route) => false,
-          );
+          if(event.page){
+            Navigator.of(event.context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => HomePage()),
+                  (route) => false,
+            );
+          }
+          else{
+            Navigator.pop(event.context);
+            Navigator.pop(event.context);
+          }
+
         }
         emit(state.copyWith(otpLoading: false));
-      }
-
 
     });
+    emit(state.copyWith(mobileLoading: false));
   }
 
   void _updateUserName(UpdateUserName event, Emitter<AuthState> emit) async {
@@ -115,10 +132,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         bool isNameUpdated = await sL<UpdateUserNameUseCase>().call(params: parms);
 
         if (isNameUpdated) {
-          Navigator.of(event.context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomePage()),
-                (route) => false,
-          );
+          if(event.page){
+            Navigator.of(event.context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HomePage()),
+                  (route) => false,);
+          }
+          else{
+            Navigator.pop(event.context);
+          }
+
         } else {
           emit(state.copyWith(nameLoading: false));
           ScaffoldMessenger.of(event.context).showSnackBar(
@@ -132,6 +154,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       },
     );
+     emit(state.copyWith(nameLoading: false));
   }
 
+  void _showVerifyOTPBottomSheet(BuildContext context,int number) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10))
+        ),
+        builder: (context) => VerifiyOtpBottomSheet(number: number,));
+  }
+
+  void _showNameBottomSheet(BuildContext context,String cookie){
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10))
+        ),
+        builder: (context)=>NameBottomSheet(cookie: cookie,));
+  }
 }

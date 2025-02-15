@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oruphones_assignment/presentation/auth/bloc/auth_bloc.dart';
 import 'package:oruphones_assignment/presentation/auth/widgets/name_bottom_sheet.dart';
 import 'package:pinput/pinput.dart';
 
@@ -7,8 +9,8 @@ import '../../../common/buttons/basic_app_button.dart';
 import 'bottom_sheet_appbar.dart';
 
 class VerifiyOtpBottomSheet extends StatefulWidget {
-  const VerifiyOtpBottomSheet({super.key});
-
+  const VerifiyOtpBottomSheet({super.key,required this.number});
+  final int number;
   @override
   State<VerifiyOtpBottomSheet> createState() => _VerifiyOtpBottomSheetState();
 }
@@ -18,6 +20,7 @@ class _VerifiyOtpBottomSheetState extends State<VerifiyOtpBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController otpController = TextEditingController();
 
     return  Padding(
       padding: EdgeInsets.only(left: 10,right:10 ,top: 10,
@@ -43,7 +46,7 @@ class _VerifiyOtpBottomSheetState extends State<VerifiyOtpBottomSheet> {
                     ),
                   ),
                   TextSpan(
-                    text: "+91-7587329682",
+                    text: "+91-${widget.number}",
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 15,
@@ -80,16 +83,23 @@ class _VerifiyOtpBottomSheetState extends State<VerifiyOtpBottomSheet> {
             SizedBox(height: 30,),
             Pinput(
               length: 4,
-              validator: (value){
-
+              controller: otpController,
+              validator: (value) {
+                if (value == null || value.length < 4) {
+                  return "Please enter the full OTP";
+                }
+                return null;
               },
               defaultPinTheme: PinTheme(
                 width: 42,
                 height: 44,
-                textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                textStyle:
+                TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 decoration: BoxDecoration(
-                  color: Colors.transparent, // ✅ Background transparent
-                  border: Border.all(color: Color(0xffCCCCCC)), // Border color
+                  color: Colors.transparent,
+                  // ✅ Background transparent
+                  border: Border.all(color: Color(0xffCCCCCC)),
+                  // Border color
                   borderRadius: BorderRadius.circular(8), // Rounded corners
                 ),
               ),
@@ -97,11 +107,14 @@ class _VerifiyOtpBottomSheetState extends State<VerifiyOtpBottomSheet> {
             SizedBox(height: 30),
             resendOptWidget(),
             SizedBox(height: 20),
+            BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+          return state.otpLoading? Center(child: CircularProgressIndicator()):
             BasicAppButton(title: "Verify OTP", onPress: (){
-             Navigator.pop(context);
-             Navigator.pop(context);
-             _showNameBottomSheet(context);
-            }),
+              context.read<AuthBloc>().add(ValidateOTP(number: widget.number, context: context, page: false, otp: int.tryParse(otpController.text)!));
+            });
+  },
+),
             SizedBox(height: 30,)
           ],
         ),
@@ -140,14 +153,6 @@ class _VerifiyOtpBottomSheetState extends State<VerifiyOtpBottomSheet> {
     );
   }
 
-  void _showNameBottomSheet(BuildContext context){
-    showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        backgroundColor: Colors.white,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10))
-        ),
-        builder: (context)=>NameBottomSheet());
-  }
+
+
 }

@@ -43,7 +43,7 @@ class NamePage extends StatelessWidget {
                     return state.nameLoading?Center(child: CircularProgressIndicator()):
                     BasicAppButton(title: "Confirm Name", onPress: (){
                     if(_formKey.currentState!.validate()){
-                      context.read<AuthBloc>().add(UpdateUserName(name: controller.text, context: context, cookie: cookie));
+                      context.read<AuthBloc>().add(UpdateUserName(name: controller.text, context: context, cookie: cookie,page: true));
                     }
                   },icon: Icons.arrow_forward_rounded,);
   },

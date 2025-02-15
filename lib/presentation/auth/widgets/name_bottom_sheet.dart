@@ -1,40 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oruphones_assignment/presentation/auth/bloc/auth_bloc.dart';
 
 import '../../../common/buttons/basic_app_button.dart';
 import 'bottom_sheet_appbar.dart';
 
 class NameBottomSheet extends StatefulWidget {
-  const NameBottomSheet({super.key});
-
+  const NameBottomSheet({super.key,required this.cookie});
+final String cookie;
   @override
   State<NameBottomSheet> createState() => _NameBottomSheetState();
 }
 
 class _NameBottomSheetState extends State<NameBottomSheet> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController controller=TextEditingController();
 
   Widget build(BuildContext context) {
-
-    return  Padding(
-      padding: EdgeInsets.only(left: 10,right:10 ,top: 10,
-          bottom:MediaQuery.of(context).viewInsets.bottom ),
+    return Padding(
+      padding: EdgeInsets.only(left: 10, right: 10, top: 10,
+          bottom: MediaQuery
+              .of(context)
+              .viewInsets
+              .bottom),
       child: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            BottomSheetAppbar(title: "Sign Up To Continue",hideBack: true,),
+            BottomSheetAppbar(title: "Sign Up To Continue", hideBack: true,),
             Divider(),
             SizedBox(height: 40),
             nameField(),
 
             SizedBox(height: 40),
-            BasicAppButton(title: "Confirm Name", onPress: (){
-              if(_formKey.currentState!.validate()){
-                // Navigator.push(context, MaterialPageRoute(builder: (_)=>VerifyOtpPage()));
-              }
-            },icon: Icons.arrow_forward_rounded,),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return BasicAppButton(title: "Confirm Name", onPress: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<AuthBloc>().add(
+                        UpdateUserName(name: controller.text, context: context, cookie: widget.cookie, page: false));
+                  }
+                }, icon: Icons.arrow_forward_rounded,);
+              },
+            ),
 
             SizedBox(height: 30,)
           ],
@@ -42,7 +52,7 @@ class _NameBottomSheetState extends State<NameBottomSheet> {
       ),);
   }
 
-  Widget nameField(){
+  Widget nameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -69,10 +79,10 @@ class _NameBottomSheetState extends State<NameBottomSheet> {
           ),
         ),
 
-       SizedBox(height: 5,),
+        SizedBox(height: 5,),
         TextFormField(
+          controller: controller,
           keyboardType: TextInputType.text,
-
           decoration: InputDecoration(
             hintText: "Name",
 

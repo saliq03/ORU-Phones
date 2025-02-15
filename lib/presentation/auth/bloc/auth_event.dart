@@ -30,10 +30,11 @@ class UpdateUserName extends AuthEvent{
    final String name;
    final BuildContext context;
    final String cookie;
+   final bool page;
 
-  UpdateUserName({required this.name,required this.context,required this.cookie});
+  UpdateUserName({required this.name,required this.context,required this.cookie,required this.page});
 
    @override
-   List<Object?> get props => [name,context,cookie];
+   List<Object?> get props => [name,context,cookie,page];
 
 }
