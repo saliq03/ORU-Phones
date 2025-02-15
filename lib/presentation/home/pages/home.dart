@@ -1,6 +1,4 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:oruphones_assignment/core/configs/assets/app_images.dart';
 import 'package:oruphones_assignment/presentation/home/widgets/app_bar.dart';
 import 'package:oruphones_assignment/presentation/home/widgets/banners.dart';
 import 'package:oruphones_assignment/presentation/home/widgets/floating_button.dart';
@@ -35,7 +33,7 @@ class _HomePageState extends State<HomePage> {
               giveSpace(height: 20),
               WhatsOnYourMindWidget(),
               giveSpace(height: 30),
-              // TopBrandsWidget(),
+              TopBrandsWidget(),
               giveSpace(height: 30),
               SortingWidgetHome(),
               giveSpace(height: 30),

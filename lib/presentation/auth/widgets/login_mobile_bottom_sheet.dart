@@ -1,56 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oruphones_assignment/presentation/auth/widgets/bottom_sheet_appbar.dart';
+import 'package:oruphones_assignment/presentation/auth/widgets/verifiy_otp_bottom_sheet.dart';
 
 import '../../../common/buttons/basic_app_button.dart';
 
-
-class LoginMobileBottomSheet extends StatelessWidget {
+class LoginMobileBottomSheet extends StatefulWidget {
   LoginMobileBottomSheet({super.key});
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
+  State<LoginMobileBottomSheet> createState() => _LoginMobileBottomSheetState();
+}
+
+class _LoginMobileBottomSheetState extends State<LoginMobileBottomSheet> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.7, // Initial height of the bottom sheet
-      minChildSize: 0.3, // Minimum height of the bottom sheet
-      maxChildSize: 1, // Maximum height of the bottom sheet
-      expand: false, // Ensures the bottom sheet only expands as needed
-      builder: (context, scrollController) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  BottomSheetAppbar(title: "Sign In To Continue"),
-                  Divider(),
-                  SizedBox(height: 20),
-                  phoneField(),
-                  SizedBox(height: 10),
-                  termsAndConditionsWidget(),
-                  SizedBox(height: 10),
-                  BasicAppButton(
-                    title: "Next",
-                    onPress: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Handle form submission
-                      }
-                    },
-                    icon: Icons.arrow_forward_rounded,
+
+    return  Padding(
+                padding: EdgeInsets.only(left: 10,right:10 ,top: 10,
+                bottom:MediaQuery.of(context).viewInsets.bottom ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      BottomSheetAppbar(title: "Sign In To Continue",hideBack: true,),
+                      Divider(),
+                      SizedBox(height: 20),
+                      phoneField(),
+                      SizedBox(height: 10),
+                      termsAndConditionsWidget(),
+                      SizedBox(height: 10),
+                      BasicAppButton(
+                        title: "Next",
+                        onPress: () {
+                          _showVerifyOTPBottomSheet(context);
+                          if (_formKey.currentState!.validate()) {
+                            // Handle form submission
+                          }
+                        },
+                        icon: Icons.arrow_forward_rounded,
+                      ),
+                      SizedBox(height: 30,)
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                ),);
   }
 
   Widget phoneField() {
@@ -66,6 +61,7 @@ class LoginMobileBottomSheet extends StatelessWidget {
           ),
         ),
         TextFormField(
+
           keyboardType: TextInputType.phone,
           maxLength: 10,
           inputFormatters: [
@@ -75,8 +71,7 @@ class LoginMobileBottomSheet extends StatelessWidget {
           decoration: InputDecoration(
             hintText: "Mobile Number",
             prefixIcon: Padding(
-              padding: const EdgeInsets.only(
-                  left: 15, top: 15, bottom: 15, right: 10),
+              padding: const EdgeInsets.only(left: 15, top: 15, bottom: 15, right: 10),
               child: Text(
                 "+91",
                 style: TextStyle(
@@ -103,7 +98,7 @@ class LoginMobileBottomSheet extends StatelessWidget {
   }
 
   Widget termsAndConditionsWidget() {
-    bool checkboxvalue = false;
+    bool checkboxvalue = true;
     return Row(
       children: [
         Checkbox(
@@ -141,5 +136,16 @@ class LoginMobileBottomSheet extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _showVerifyOTPBottomSheet(BuildContext context){
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10))
+        ),
+        builder: (context)=>VerifiyOtpBottomSheet());
   }
 }

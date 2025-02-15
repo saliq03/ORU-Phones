@@ -13,24 +13,19 @@ class BottomSheetAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
-      leading:hideBack?SizedBox():IconButton(onPressed: (){
+      automaticallyImplyLeading: !hideBack,
+      leading:hideBack?null:IconButton(onPressed: (){
             Navigator.pop(context);
           }, icon: Icon(Icons.arrow_back_outlined,size: 25,color: Colors.black,)),
       title: Text(title),
       actions: [Padding(
             padding: const EdgeInsets.only(right: 10),
-            child: SvgPicture.asset(AppVectors.cross,width: 17,height: 17,colorFilter: ColorFilter.mode(Colors.black,BlendMode.srcIn),),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+                child: SvgPicture.asset(AppVectors.cross,width: 17,height: 17,colorFilter: ColorFilter.mode(Colors.black,BlendMode.srcIn),)),
           ),],
     );
-    // return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //   children: [
-    //     hideBack?SizedBox():IconButton(onPressed: (){
-    //       Navigator.pop(context);
-    //     }, icon: Icon(Icons.arrow_back_outlined,size: 30,color: Colors.black,)),
-    //     Padding(
-    //       padding: const EdgeInsets.only(right: 10),
-    //       child: SvgPicture.asset(AppVectors.cross,width: 20,height: 20,colorFilter: ColorFilter.mode(Colors.black,BlendMode.srcIn),),
-    //     ),
-    //   ],);
   }
 }

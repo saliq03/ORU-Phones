@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oruphones_assignment/data/models/product.dart';
 import 'package:oruphones_assignment/presentation/auth/widgets/login_mobile_bottom_sheet.dart';
+import 'package:oruphones_assignment/presentation/auth/widgets/verifiy_otp_bottom_sheet.dart';
 import 'package:oruphones_assignment/presentation/home/bloc/home_bloc.dart';
 import '../../../core/configs/assets/app_images.dart';
 
@@ -187,6 +188,7 @@ class GridItemsWidget extends StatelessWidget {
 
    void _showLoginMobileBottomSheet(BuildContext context){
     showModalBottomSheet(
+       isScrollControlled: true,
         context: context,
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
@@ -194,4 +196,6 @@ class GridItemsWidget extends StatelessWidget {
         ),
         builder: (context)=>LoginMobileBottomSheet());
    }
+
+
 }

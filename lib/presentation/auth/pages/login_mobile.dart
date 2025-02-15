@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:oruphones_assignment/common/buttons/basic_app_button.dart';
 import 'package:oruphones_assignment/core/configs/assets/app_images.dart';
 import 'package:oruphones_assignment/core/configs/assets/app_vectors.dart';
 import 'package:oruphones_assignment/core/configs/colors/app_colors.dart';
+import 'package:oruphones_assignment/presentation/auth/bloc/auth_bloc.dart';
 import 'package:oruphones_assignment/presentation/auth/pages/verify_otp.dart';
 import 'package:oruphones_assignment/presentation/auth/widgets/app_bar.dart';
 
@@ -13,6 +15,7 @@ class LoginMobilePage extends StatelessWidget {
    LoginMobilePage({super.key});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController controller=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,11 +39,17 @@ class LoginMobilePage extends StatelessWidget {
                   SizedBox(height: 100,),
                   termsAndConditionsWidget(),
                   SizedBox(height: 5,),
-                  BasicAppButton(title: "Next", onPress: (){
+                  BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                  return state.mobileLoading?Center(child: CircularProgressIndicator()):
+                    BasicAppButton(title: "Next", onPress: (){
                     if(_formKey.currentState!.validate()){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>VerifyOtpPage()));
+                      context.read<AuthBloc>().add(GenerateOTP(number: int.tryParse(controller.text)! , context: context, page: true));
+
                     }
-                  },icon: Icons.arrow_forward_rounded,)
+                  },icon: Icons.arrow_forward_rounded,);
+  },
+)
                 ],
               ),
             ),
@@ -56,6 +65,7 @@ class LoginMobilePage extends StatelessWidget {
       children: [
         Text("Enter Your Phone Number",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400,color:Color(0xff282828)),),
         TextFormField(
+          controller: controller,
           keyboardType: TextInputType.phone,
           maxLength: 10,
           inputFormatters: [
@@ -89,11 +99,10 @@ class LoginMobilePage extends StatelessWidget {
     );
   }
   Widget termsAndConditionsWidget(){
-    bool checkboxvalue=false;
+    bool checkboxvalue=true;
     return Row(
       children: [
         Checkbox(
-
           value: checkboxvalue,
           onChanged: (value) {
             checkboxvalue = value!;

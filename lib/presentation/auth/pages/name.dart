@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oruphones_assignment/data/sources/api_services.dart';
+import 'package:oruphones_assignment/presentation/auth/bloc/auth_bloc.dart';
+import 'package:oruphones_assignment/service_locator.dart';
 
 import '../../../common/buttons/basic_app_button.dart';
 import '../../../core/configs/assets/app_images.dart';
@@ -8,9 +12,11 @@ import '../../../core/configs/colors/app_colors.dart';
 import '../widgets/app_bar.dart';
 
 class NamePage extends StatelessWidget {
-   NamePage({super.key});
+   NamePage({super.key,required this.cookie});
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+   final TextEditingController controller=TextEditingController();
+   final String cookie;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,16 +34,20 @@ class NamePage extends StatelessWidget {
                   SvgPicture.asset(AppVectors.logo,width: 116,height: 61,colorFilter: ColorFilter.mode(Colors.black,BlendMode.srcIn),),
                   SizedBox(height: 50,),
                   Text("Welcome",style: TextStyle(fontSize: 28,color: AppColors.primary,fontWeight: FontWeight.w600),),
-                  Text("Sign in to continue",style: TextStyle(color: Color(0xff707070),fontSize: 14,fontWeight: FontWeight.w400),),
+                  Text("Sign up to continue",style: TextStyle(color: Color(0xff707070),fontSize: 14,fontWeight: FontWeight.w400),),
                   SizedBox(height: 100,),
                   nameField(),
                   SizedBox(height: 100,),
-
-                  BasicAppButton(title: "Next", onPress: (){
+                  BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    return state.nameLoading?Center(child: CircularProgressIndicator()):
+                    BasicAppButton(title: "Confirm Name", onPress: (){
                     if(_formKey.currentState!.validate()){
-                     // Navigator.push(context, MaterialPageRoute(builder: (_)=>VerifyOtpPage()));
+                      context.read<AuthBloc>().add(UpdateUserName(name: controller.text, context: context, cookie: cookie));
                     }
-                  },icon: Icons.arrow_forward_rounded,)
+                  },icon: Icons.arrow_forward_rounded,);
+  },
+)
                 ],
               ),
             ),
@@ -76,6 +86,7 @@ class NamePage extends StatelessWidget {
 
 
         TextFormField(
+          controller: controller,
           keyboardType: TextInputType.text,
 
           decoration: InputDecoration(

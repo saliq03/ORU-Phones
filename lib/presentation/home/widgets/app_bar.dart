@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oruphones_assignment/data/sources/api_services.dart';
+import 'package:oruphones_assignment/presentation/auth/pages/login_mobile.dart';
+import 'package:oruphones_assignment/service_locator.dart';
 
 import '../../../core/configs/assets/app_vectors.dart';
 
@@ -26,7 +29,7 @@ class AppBarHome extends StatelessWidget {
       actions: [
         setLocationWidget(),
         SizedBox(width: 10,),
-        loginButton()
+        loginButton(context)
       ],
     );
   }
@@ -41,15 +44,19 @@ class AppBarHome extends StatelessWidget {
     );
   }
 
-  Widget loginButton(){
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12),
-      height: 29,width: 66,
-      decoration: BoxDecoration(
-        color: Color(0xffF6C018),
-        borderRadius: BorderRadius.circular(4),
+  Widget loginButton(BuildContext context){
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginMobilePage()));},
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 12),
+        height: 29,width: 66,
+        decoration: BoxDecoration(
+          color: Color(0xffF6C018),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Center(child: Text("Login",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),)),
       ),
-      child: Center(child: Text("Login",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),)),
     );
   }
 }
