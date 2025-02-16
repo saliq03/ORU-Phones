@@ -1,16 +1,13 @@
 # oruphones_assignment
 
-A new Flutter project.
+State Management:
+The project uses BLoC (Business Logic Component) for state management. 
+Architecture:
+The project follows the Clean Architecture principles. 
+Data Layer: Responsible for accessing external data sources (APIs, databases, etc.) and mapping them to the domain models.
+Domain Layer: Contains business logic and use cases.
+Presentation Layer: Manages the UI and communicates with the domain layer through BLoC.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Development Tools:
+The project was developed using Android Studio with the Flutter framework and the Dart programming language.
