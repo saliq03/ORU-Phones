@@ -88,12 +88,18 @@ class GridItemsWidget extends StatelessWidget {
                         builder: (context, state) {
                           return IconButton(onPressed: (){
                         if(state.isLoggedIn){
-                         sL<ApiService>().toggleFavorite(product.sId!, true);
+                         context.read<HomeBloc>().add(AddOrRemoveFromFavourites(id: product.sId!));
                         }
                         else{
                           _showLoginMobileBottomSheet(context);
                         }
-                      }, icon: Icon(Icons.favorite_outline_outlined,color: Color(0xffFFFFFF),
+                      }, icon:state.favourites.contains(product.sId!)?
+                          Icon(Icons.favorite,color: Colors.red,
+                            shadows: [BoxShadow(
+                              color: Color(0x66FFFFFF),
+                              blurRadius: 10,
+                              spreadRadius: 5,),],):
+                          Icon(Icons.favorite_outline_outlined,color: Color(0xffFFFFFF),
                         shadows: [BoxShadow(
                           color: Color(0x66FFFFFF),
                           blurRadius: 10,

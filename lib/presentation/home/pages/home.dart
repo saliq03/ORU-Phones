@@ -41,9 +41,19 @@ class _HomePageState extends State<HomePage> {
               giveSpace(height: 30),
               SliverToBoxAdapter(
                 child: Column(
-                  
                   children: [
-                    Text('Frequently Asked Questions')
+                    Container(
+                      height: 222,
+                      width: double.infinity,
+                      color: Color(0xffF6C018),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text("Get Notified About Our\nLatest Offers and Price Drops", textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight:FontWeight.w600,color: Color(0xff000000),),)
+                        ],
+                      ),
+                    )
                   ],
                 ),
               )

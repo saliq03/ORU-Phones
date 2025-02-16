@@ -9,4 +9,9 @@ class ProductsRepositoryImpl extends ProductsRepository{
     return await sL<ApiService>().fetchProducts(filters);
   }
 
+  @override
+  Future<bool> toggleFavorite(String listingId, bool isFav) async{
+    return await sL<ApiService>().toggleFavorite(listingId, isFav);
+  }
+
 }

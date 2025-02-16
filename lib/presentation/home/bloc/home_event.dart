@@ -6,3 +6,9 @@ class HomeEvent extends Equatable{
 }
 class FetchProducts extends HomeEvent{}
 class FetchUser extends HomeEvent{}
+class AddOrRemoveFromFavourites extends HomeEvent{
+ final  String id;
+  AddOrRemoveFromFavourites({required this.id});
+ @override
+ List<Object?> get props => [];
+}

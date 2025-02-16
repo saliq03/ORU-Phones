@@ -8,6 +8,7 @@ import 'package:oruphones_assignment/data/sources/user_prefrences/user_prefrence
 import 'package:oruphones_assignment/presentation/auth/pages/login_mobile.dart';
 
 
+import '../../../services/notification/notification_services.dart';
 import '../../home/pages/home.dart';
 
 class SplashPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  NotificationServices notificationServices=NotificationServices();
   List<dynamic> products = [];
 
 
@@ -48,6 +50,13 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    notificationServices.requestNotificationPermission();
+    notificationServices.firebaseInit(context);
+
+    notificationServices.getDeviceToken().then((value){
+      print("device tonken \n");
+      print(value);
+    });
     fetchProducts();
     Navigate();
   }

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:oruphones_assignment/data/sources/api_services.dart';
 import 'package:oruphones_assignment/data/sources/user_prefrences/user_prefrences.dart';
+import 'package:oruphones_assignment/domain/repository/products_repository.dart';
 
 import 'package:oruphones_assignment/domain/usecases/products/fetch_products.dart';
 
@@ -16,6 +17,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeState()){
     on<FetchProducts>(_fetchProducts);
     on<FetchUser>(_fetchUser);
+    on<AddOrRemoveFromFavourites>(_addOrRemoveFavourite);
   }
 Future<void> _fetchProducts(FetchProducts event,Emitter<HomeState> emit) async {
     print("fetchProductsmethod called");
@@ -43,9 +45,21 @@ Future<void> _fetchProducts(FetchProducts event,Emitter<HomeState> emit) async {
 }
  void _fetchUser(FetchUser event,Emitter<HomeState> emit)async{
     bool isLogin=await userPreferences.isLogin();
-    if(isLogin){
-     sL<ApiService>().fetchUserFavorites();
-    }
+
     emit(state.copyWith(isLoggedIn: isLogin));
+  }
+
+  void _addOrRemoveFavourite(AddOrRemoveFromFavourites event ,Emitter<HomeState> emit)async{
+    List<String> fav=List.from(state.favourites);
+    if(fav.contains(event.id)){
+      fav.remove(event.id);
+      await sL<ProductsRepository>().toggleFavorite(event.id, false);
+    }
+    else{
+      fav.add(event.id);
+      await sL<ProductsRepository>().toggleFavorite(event.id, true);
+    }
+
+    emit(state.copyWith(favourites: fav));
   }
 }

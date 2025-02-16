@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "253130546027",
+    "project_id": "oru-phones-df134",
+    "storage_bucket": "oru-phones-df134.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253130546027:android:256450ba1f495dc1658a2e",
+        "android_client_info": {
+          "package_name": "com.example.oruphones_assignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs22wOxjGhvW6kXcC1dhoh9WANRHWnBgk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
