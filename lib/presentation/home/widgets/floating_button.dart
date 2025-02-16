@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oruphones_assignment/data/sources/user_prefrences/user_prefrences.dart';
 
 class FloatingButtonHome extends StatelessWidget {
   const FloatingButtonHome({super.key});
@@ -12,7 +13,9 @@ class FloatingButtonHome extends StatelessWidget {
         width: 105,
         height: 51,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            UserPreferences().removeUser();
+          },
           backgroundColor: Color(0xff363636),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(44),

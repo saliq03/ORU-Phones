@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
           create: (_) {
             final homeBloc = HomeBloc();
             homeBloc.add(FetchProducts()); // Trigger fetch here
+            homeBloc.add(FetchUser()); // Trigger fetch here
             return homeBloc;
           },
         ),

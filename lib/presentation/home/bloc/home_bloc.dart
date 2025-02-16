@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:oruphones_assignment/data/sources/api_services.dart';
+import 'package:oruphones_assignment/data/sources/user_prefrences/user_prefrences.dart';
 
 import 'package:oruphones_assignment/domain/usecases/products/fetch_products.dart';
 
@@ -10,8 +12,10 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  final UserPreferences userPreferences=UserPreferences();
   HomeBloc() : super(HomeState()){
     on<FetchProducts>(_fetchProducts);
+    on<FetchUser>(_fetchUser);
   }
 Future<void> _fetchProducts(FetchProducts event,Emitter<HomeState> emit) async {
     print("fetchProductsmethod called");
@@ -37,4 +41,11 @@ Future<void> _fetchProducts(FetchProducts event,Emitter<HomeState> emit) async {
 
 
 }
+ void _fetchUser(FetchUser event,Emitter<HomeState> emit)async{
+    bool isLogin=await userPreferences.isLogin();
+    if(isLogin){
+     sL<ApiService>().fetchUserFavorites();
+    }
+    emit(state.copyWith(isLoggedIn: isLogin));
+  }
 }

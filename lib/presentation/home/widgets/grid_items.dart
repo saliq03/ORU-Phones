@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oruphones_assignment/data/models/product.dart';
+import 'package:oruphones_assignment/data/sources/api_services.dart';
 import 'package:oruphones_assignment/presentation/auth/widgets/login_mobile_bottom_sheet.dart';
 import 'package:oruphones_assignment/presentation/auth/widgets/verifiy_otp_bottom_sheet.dart';
 import 'package:oruphones_assignment/presentation/home/bloc/home_bloc.dart';
 import '../../../core/configs/assets/app_images.dart';
+import '../../../service_locator.dart';
 
 class GridItemsWidget extends StatelessWidget {
    GridItemsWidget({super.key});
@@ -82,14 +84,23 @@ class GridItemsWidget extends StatelessWidget {
                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                      product.images!.isNotEmpty&&product.images![0].isVarified=="accepted"?Image.asset(AppImages.ORUVerified):SizedBox(width: 1,),
-                      IconButton(onPressed: (){
-                        _showLoginMobileBottomSheet(context);
+                      BlocBuilder<HomeBloc, HomeState>(
+                        builder: (context, state) {
+                          return IconButton(onPressed: (){
+                        if(state.isLoggedIn){
+                         sL<ApiService>().toggleFavorite(product.sId!, true);
+                        }
+                        else{
+                          _showLoginMobileBottomSheet(context);
+                        }
                       }, icon: Icon(Icons.favorite_outline_outlined,color: Color(0xffFFFFFF),
                         shadows: [BoxShadow(
                           color: Color(0x66FFFFFF),
                           blurRadius: 10,
                           spreadRadius: 5,),],),
-                      )
+                      );
+  },
+)
 
                     ],),
                   product.openForNegotiation==true?ClipRect(

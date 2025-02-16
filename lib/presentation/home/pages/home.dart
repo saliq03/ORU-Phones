@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
               giveSpace(height: 30),
               SliverToBoxAdapter(
                 child: Column(
+                  
                   children: [
                     Text('Frequently Asked Questions')
                   ],

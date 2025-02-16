@@ -5,3 +5,4 @@ class HomeEvent extends Equatable{
   List<Object?> get props => [];
 }
 class FetchProducts extends HomeEvent{}
+class FetchUser extends HomeEvent{}

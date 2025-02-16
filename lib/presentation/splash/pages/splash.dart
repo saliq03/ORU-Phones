@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oruphones_assignment/core/configs/assets/app_animations.dart';
+import 'package:oruphones_assignment/data/sources/user_prefrences/user_prefrences.dart';
 import 'package:oruphones_assignment/presentation/auth/pages/login_mobile.dart';
 
 
-import '../../../data/sources/api_services.dart';
 import '../../home/pages/home.dart';
 
 class SplashPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   List<dynamic> products = [];
-  List<dynamic> banners = [];
+
 
   Future<void> fetchProducts() async {
 
@@ -49,12 +49,27 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     fetchProducts();
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+    Navigate();
+  }
+
+  Navigate()async{
+    bool isLogin= await UserPreferences().isLogin();
+    Future.delayed(Duration(seconds: 3), (){
+      if(isLogin){
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
+      else{
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginMobilePage()),
+        );
+      }
+
     });
+
   }
   @override
   Widget build(BuildContext context) {

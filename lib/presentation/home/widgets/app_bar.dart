@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:oruphones_assignment/data/sources/api_services.dart';
 import 'package:oruphones_assignment/presentation/auth/pages/login_mobile.dart';
+import 'package:oruphones_assignment/presentation/home/bloc/home_bloc.dart';
 import 'package:oruphones_assignment/service_locator.dart';
 
 import '../../../core/configs/assets/app_vectors.dart';
@@ -45,7 +47,13 @@ class AppBarHome extends StatelessWidget {
   }
 
   Widget loginButton(BuildContext context){
-    return GestureDetector(
+    return BlocBuilder<HomeBloc, HomeState>(
+  builder: (context, state) {
+    return state.isLoggedIn?Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Icon(Icons.notifications),
+    ):
+      GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (_)=>LoginMobilePage()));},
       child: Container(
@@ -58,5 +66,7 @@ class AppBarHome extends StatelessWidget {
         child: Center(child: Text("Login",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500),)),
       ),
     );
+  },
+);
   }
 }
